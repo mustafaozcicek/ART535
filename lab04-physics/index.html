@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Lab</title>
+    <script src="../dist/aframe-v1.7.1.min.js"></script>
+    <script src="../dist/aframe-physics-system.min.js"></script>
+    <script src="https://unpkg.com/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>    <!-- <script src="https://unpkg.com/aframe-inspector@1.7.0/dist/aframe-inspector.min.js"></script> -->
+</head>
+<body>
+
+
+    <a-scene physics="debug: false; driver: local; iterations: 1; gravity: -9; stats: console">
+        <a-entity id="rig" position="0 1.6 5">
+            <a-camera></a-camera>
+        </a-entity>
+        <a-entity laser-controls="hand: right" teleport-controls="cameraRig: #rig; teleportOrigin: #rig"></a-entity>
+        <a-entity teleport-controls="cameraRig: #rig; teleportOrigin: #rig;" laser-controls="hand: right">
+        </a-entity>
+        <!-- Static box -->
+        <a-box
+            dynamic-body="shape: box;"
+            position="0 0.5 -5"
+            width="3"
+            height="1"
+            depth="1">
+        </a-box>
+
+        <!-- Dynamic box -->
+        <a-box
+            dynamic-body="shape: box;"
+            position="0 2.5 -5">
+        </a-box>
+
+        <a-entity
+            geometry="primitive: cylinder; radius: 0.5;
+                       height: 1"
+            dynamic-body="shape: box; mass: 0.1;"
+            radius="0.5"
+            height="1"
+            position="0 7.5 -5" material="color: #f00">
+        </a-entity>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="0 20.5 -5"
+            id="s01">
+        </a-sphere>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="0 22.5 -5"
+            id="s02"
+            constraint="target: #s01;  type: coneTwist; pivot: 0 0 1">
+        </a-sphere>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="0 24.5 -5"
+            id="s03"
+            constraint="target: #s02;  type: coneTwist; pivot: 0 0 1">
+        </a-sphere>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="0 26.5 -5"
+            id="s04"
+            constraint="target: #s03;  type: coneTwist; pivot: 0 0 1">
+        </a-sphere>
+
+
+        <a-sphere
+            static-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="3 3.5 -5"
+            id="ss01">
+        </a-sphere>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="3.5 5 -5"
+            id="ss02"
+            spring="target: #ss01; damping: 0.02; stiffness: 25;">
+        </a-sphere>
+
+        <a-sphere
+            dynamic-body="shape: sphere; sphereRadius: 0.5; mass: 0.1;"
+            radius="0.5"
+            position="4 6 -5"
+            id="ss03"
+            spring="target: #ss02; damping: 0.02; stiffness: 25;">
+        </a-sphere>
+
+        <a-box
+            width="30"
+            height="1"
+            depth="30"
+            position="0 -0.5 0"
+            material="color: #666"
+            static-body="shape: box">
+        </a-box>
+
+        <a-box
+            width="30"
+            height="4"
+            depth="0.2"
+            position="0 2 15"
+            material="color: #666"
+            static-body="shape: box">
+        </a-box>
+        <a-box 
+            width="30"
+            height="4"
+            depth="0.2"
+            position="15 2 0"
+            rotation="0 90 0"
+            material="color: #666"
+            static-body="shape: box">
+        </a-box>
+        <a-box
+            width="30"
+            height="4"
+            depth="0.2"
+            position="-15 2 0"
+            rotation="0 90 0"
+            material="color: #666"
+            static-body="shape: box">
+        </a-box>
+        <a-box
+            width="30"
+            height="4"
+            depth="0.2"
+            position="0 2 -15"
+            rotation="0 0 0"
+            material="color: #666"
+            static-body="shape: box">
+        </a-box>
+
+
+
+
+
+
+        <a-sky color="#333"></a-sky>
+    </a-scene>
+    
+    
+</body>
+</html>
