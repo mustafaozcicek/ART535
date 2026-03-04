@@ -6,63 +6,23 @@
     <title>Physics Lab</title>
     <script src="../dist/aframe-v1.7.1.min.js"></script>
     <script src="../dist/aframe-physics-system.min.js"></script>
-    <script src="https://unpkg.com/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>    <!-- <script src="https://unpkg.com/aframe-inspector@1.7.0/dist/aframe-inspector.min.js"></script> -->
+    <script src="https://unpkg.com/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+    <!-- <script src="https://unpkg.com/aframe-inspector@1.7.0/dist/aframe-inspector.min.js"></script> -->
 </head>
 <body>
 
-    <script>
-        AFRAME.registerComponent('simple-teleport', {
-
-  init() {
-
-    const rig = document.querySelector('#rig');
-    const raycaster = this.el.components.raycaster;
-
-    this.el.addEventListener('triggerdown', () => {
-
-      const intersections = raycaster.intersections;
-      if (!intersections.length) return;
-
-      const point = intersections[0].point;
-
-      rig.setAttribute('position', {
-        x: point.x,
-        y: 0,
-        z: point.z
-      });
-
-    });
-
-  }
-
-});
-    </script>
-
+   
 
     <a-scene physics="debug: true; driver: local; iterations: 10; gravity: -9; stats: console">
         
         
-        <a-entity id="rig" movement-controls="speed:0.2">
-  
-            <a-box
-                id="playerCollider"
-                visible="false"
-                position="0 0.9 0"
-                width="0.6"
-                height="1.8"
-                depth="0.6"
-                >
-            </a-box>
-
-            <a-entity camera look-controls position="0 1.6 0">
-                <a-entity
-                laser-controls="hand:right"
-                raycaster="objects:.teleportable"
-                simple-teleport>
-                </a-entity>
-            </a-entity>
-            
-
+         <a-entity id="player">
+            <!-- camera -->
+            <a-entity id="camera" camera wasd-controls look-controls></a-entity>
+            <!-- hand controls -->
+            <a-entity id="left-hand" oculus-touch-controls="hand: left" blink-controls></a-entity>
+            <a-entity id="right-hand" oculus-touch-controls="hand: right"></a-entity>
         </a-entity>
 
 
