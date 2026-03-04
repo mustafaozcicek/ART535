@@ -11,39 +11,68 @@
 <body>
 
     <script>
-AFRAME.registerComponent('simple-teleport', {
+        AFRAME.registerComponent('simple-teleport', {
 
-  init() {
+        init() {
 
-    const rig = document.querySelector('#rig');
-    const raycaster = this.el.components.raycaster;
+            const rig = document.querySelector('#rig');
+            const raycaster = this.el.components.raycaster;
 
-    this.el.addEventListener('triggerdown', () => {
+            this.el.addEventListener('triggerdown', () => {
 
-      const intersections = raycaster.intersections;
+            const intersections = raycaster.intersections;
 
-      if (!intersections.length) return;
+            if (!intersections.length) return;
 
-      const point = intersections[0].point;
+            const point = intersections[0].point;
 
-      rig.setAttribute('position', {
-        x: point.x,
-        y: 1.6,
-        z: point.z
-      });
+            rig.body.position.set(point.x, 1.6, point.z);
+            rig.body.velocity.set(0,0,0);
+            rig.body.angularVelocity.set(0,0,0);
 
-    });
+            });
 
-  }
+        }
 
-});
-</script>
+        });
+
+        AFRAME.registerComponent('sync-collider', {
+
+        tick() {
+
+            const cameraRig = document.querySelector('#cameraRig')
+            const collider = document.querySelector('#collider')
+
+            if (!collider.body) return
+
+            const pos = cameraRig.object3D.position
+
+            collider.body.position.set(
+            pos.x,
+            pos.y,
+            pos.z
+            )
+
+        }
+
+        });
+    </script>
 
 
-    <a-scene physics="debug: false; driver: local; iterations: 1; gravity: -9; stats: console">
-        <a-entity id="rig" position="0 1.6 5">
-            <a-camera></a-camera>
+    <a-scene sync-collider physics="debug: true; driver: local; iterations: 10; gravity: -9; stats: console">
+        <a-entity id="player">
+
+            <a-entity id="cameraRig" position="0 1.6 5">
+            <a-camera wasd-controls look-controls></a-camera>
+            </a-entity>
+
+            <a-entity id="collider"
+              dynamic-body="shape:sphere; sphereRadius:0.35; mass:1; gravity:0 0 0; angularFactor:0 0 0; linearDamping:0.9">
+            </a-entity>
+
         </a-entity>
+
+
 
         <a-entity
             laser-controls="hand: right"
@@ -52,7 +81,7 @@ AFRAME.registerComponent('simple-teleport', {
         </a-entity>
 
 
-        <!-- Static box -->
+       <!-- Dynamic box -->
         <a-box
             dynamic-body="shape: box;"
             position="0 0.5 -5"
@@ -61,7 +90,7 @@ AFRAME.registerComponent('simple-teleport', {
             depth="1">
         </a-box>
 
-        <!-- Dynamic box -->
+        
         <a-box
             dynamic-body="shape: box;"
             position="0 2.5 -5">
