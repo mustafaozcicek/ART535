@@ -10,14 +10,48 @@
 </head>
 <body>
 
+    <script>
+AFRAME.registerComponent('simple-teleport', {
+
+  init() {
+
+    const rig = document.querySelector('#rig');
+    const raycaster = this.el.components.raycaster;
+
+    this.el.addEventListener('triggerdown', () => {
+
+      const intersections = raycaster.intersections;
+
+      if (!intersections.length) return;
+
+      const point = intersections[0].point;
+
+      rig.setAttribute('position', {
+        x: point.x,
+        y: 1.6,
+        z: point.z
+      });
+
+    });
+
+  }
+
+});
+</script>
+
 
     <a-scene physics="debug: false; driver: local; iterations: 1; gravity: -9; stats: console">
         <a-entity id="rig" position="0 1.6 5">
             <a-camera></a-camera>
         </a-entity>
-        <a-entity laser-controls="hand: right" teleport-controls="cameraRig: #rig; teleportOrigin: #rig"></a-entity>
-        <a-entity teleport-controls="cameraRig: #rig; teleportOrigin: #rig;" laser-controls="hand: right">
+
+        <a-entity
+            laser-controls="hand: right"
+            raycaster="objects: .teleportable"
+            simple-teleport>
         </a-entity>
+
+
         <!-- Static box -->
         <a-box
             dynamic-body="shape: box;"
@@ -103,7 +137,8 @@
             depth="30"
             position="0 -0.5 0"
             material="color: #666"
-            static-body="shape: box">
+            static-body="shape: box"
+            class="teleportable">
         </a-box>
 
         <a-box
