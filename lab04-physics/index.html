@@ -17,12 +17,12 @@
     <a-scene physics="debug: true; driver: local; iterations: 10; gravity: -9; stats: console">
         
         
-         <a-entity id="player">
+         <a-entity id="player" position="0 1.6 0">
             <!-- camera -->
             <a-entity id="camera" camera wasd-controls look-controls></a-entity>
             <!-- hand controls -->
             <a-entity id="left-hand" raycaster="objects: .floor" oculus-touch-controls="hand: left" blink-controls></a-entity>
-            <a-entity id="right-hand" oculus-touch-controls="hand: right" blink-controls></a-entity>
+            <a-entity id="right-hand" raycaster="objects: .floor" oculus-touch-controls="hand: right" blink-controls></a-entity>
         </a-entity>
 
 
