@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Module</title>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.4/dist/aframe-physics-system.min.js"></script>
+
+
+</head>
+<body>
+
+    <a-scene physics="debug: true">
+
+        <a-sphere id="ball01" position="-2 4 -5" radius="0.5" color="#fff" static-body></a-sphere>
+
+        <a-sphere id="ball02" position="0 6 -5" radius="0.5" color="#fff" dynamic-body spring="target: #ball01; stiffness: 300; damping: 10; restLength: 1"></a-sphere>
+
+        <a-sphere id="ball03" position="1 6 -5" radius="0.5" color="#fff" dynamic-body spring="target: #ball02; stiffness: 300; damping: 10; restLength: 1"></a-sphere>
+
+        <a-box position="0.5 1 -5" static-body></a-box>
+
+        <a-box position="0 0 -4" rotation="-90 0 0" width="40" height="40" depth="0.1" color="#7BC8A4" static-body="shape: box;"></a-box>
+
+
+        <a-entity position="4 -2 0">
+
+
+            <a-sphere id="ball04" position="-1 6 -5" radius="0.5" color="#fff" static-body></a-sphere>
+
+        <a-sphere id="ball05" position="0 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball04; type: hinge; pivot: 0 1 0;"></a-sphere>
+
+        <a-sphere id="ball06" position="1 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball05; type: hinge; pivot: 0 1 0;"></a-sphere>
+
+        <a-box position="0.5 1 -5" static-body></a-box>
+
+        <a-box position="0 0 -4" rotation="-90 0 0" width="40" height="40" depth="0.1" color="#7BC8A4" static-body="shape: box;">
+
+
+
+
+        </a-entity>
+
+
+        <a-sky color="#222"></a-sky>
+    </a-scene>
+    
+
+
+    
+</body>
+</html>
