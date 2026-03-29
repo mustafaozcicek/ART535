@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Module</title>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-physics-system@v4.2.4/dist/aframe-physics-system.min.js"></script>
+
+
+</head>
+<body>
+
+    <a-scene physics="debug: true">
+
+        
+        
+
+        <a-entity position="4 0 -4" rotation="0 45 0">
+
+            <a-sphere id="ball01" position="-0.04408 4 -16.56187" radius="0.5" color="#fff" dynamic-body="mass: 200"></a-sphere>
+
+            <a-cylinder id="pins" position="0 0.96215 -2.12352" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body
+            
+            
+            
+            ></a-cylinder>
+
+            <a-cylinder id="pins-2" position="-0.38568 0.96215 -1.48373" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            <a-cylinder id="pins-3" position="0.30303 0.96215 -1.48373" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-4" position="0 0.96215 -0.8938" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-5" position="-0.82645 0.96215 -0.8938" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder><a-cylinder id="pins-6" position="0.66115 0.96215 -0.8938" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-8" position="-1.23967 0.96215 -0.3818" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-7" position="-0.38568 0.96215 -0.3818" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-9" position="0.30303 0.96215 -0.35425" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+            
+            <a-cylinder id="pins-10" position="0.99174 0.96215 -0.35425" color="#fff" geometry="radius: 0.15; segmentsHeight: 9" dynamic-body="mass: 1"></a-cylinder>
+
+            <a-box geometry="depth: 0.22; height: 4.52" position="0 2.06717 -16.03873" rotation="-45 0 0" static-body></a-box>
+
+        
+
+            <a-entity id="floor" rotation="0 0 0">
+
+                <a-box position="-2 0.6 0" rotation="0 0 0" width="0.1" height="0.2" depth="40" color="#fff" static-body></a-box>
+
+        <a-box position="2 0.6 0" rotation="0 0 0" width="0.1" height="0.2" depth="40" color="#fff" static-body></a-box>
+
+
+            <a-box position="0 0.5 0" rotation="0 0 0" width="40" height="0.1" depth="40" color="#7BC8A4" static-body></a-box>
+
+            </a-entity>
+
+
+
+        
+
+        </a-entity>
+
+        <a-sky color="#222"></a-sky>
+    </a-scene>
+    
+
+
+    
+</body>
+</html>

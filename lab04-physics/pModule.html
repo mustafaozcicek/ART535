@@ -29,9 +29,13 @@
 
             <a-sphere id="ball04" position="-1 6 -5" radius="0.5" color="#fff" static-body></a-sphere>
 
-        <a-sphere id="ball05" position="0 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball04; type: hinge; pivot: 0 1 0;"></a-sphere>
+        <a-sphere id="ball05" position="0 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball04; type: hinge; pivot: 0 -1.2 0;"></a-sphere>
 
-        <a-sphere id="ball06" position="1 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball05; type: hinge; pivot: 0 1 0;"></a-sphere>
+        <a-sphere id="ball06" position="1 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball05; type: hinge; pivot: 0 -1.2 0;"></a-sphere>
+
+        <a-sphere id="ball07" position="4 6 -5" radius="0.5" color="#fff" static-body></a-sphere>
+
+        <a-sphere id="ball08" position="5 6 -5" radius="0.5" color="#fff" dynamic-body constraint="target: #ball07; type: pointToPoint; pivot: -1.5 -1.5 -1.5;"></a-sphere>
 
         <a-box position="0.5 1 -5" static-body></a-box>
 
