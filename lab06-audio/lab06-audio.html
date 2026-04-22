@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start Experience Template</title>
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    #startOverlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(179, 27, 27, 0.92);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      text-align: center;
+    }
+
+    #startOverlay h1 {
+      margin-bottom: 12px;
+      font-size: 2rem;
+    }
+
+    #startOverlay p {
+      margin-bottom: 24px;
+      max-width: 500px;
+      padding: 0 20px;
+      line-height: 1.5;
+    }
+
+    #startButton {
+      padding: 14px 24px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    #startOverlay.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="startOverlay">
+    <h1>Welcome</h1>
+    <p>Click below to start the experience and enable sound.</p>
+    <button id="startButton">Start Experience</button>
+  </div>
+
+  <a-scene background="color: #ECECEC">
+    <a-assets>
+      <audio id="sound1" src="sound1.mp3" preload="auto"></audio>
+      <audio id="sound2" src="sound2.mp3" preload="auto"></audio>
+    </a-assets>
+
+    <a-box position="-20 1.6 -4" rotation="0 45 0" color="#4CC3D9"></a-box>
+    <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
+    <a-cylinder position="20 1.6 -4" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
+    <a-plane position="0 0 -4" rotation="-90 0 0" width="8" height="8" color="#7BC8A4"></a-plane>
+
+    <a-sound id="leftSound" src="#sound1" position="-20 1.6 -4" sound="autoplay: false; positional: true; loop: true; volume: 1; maxDistance: 12"></a-sound>
+    <a-sound id="rightSound" src="#sound2" position="20 1.6 -4" sound="autoplay: false; positional: true; loop: true; volume: 1; maxDistance: 12"></a-sound>
+
+    <a-camera position="0 1.6 0"></a-camera>
+  </a-scene>
+
+  <script>
+    const startButton = document.querySelector('#startButton');
+    const startOverlay = document.querySelector('#startOverlay');
+
+    startButton.addEventListener('click', () => {
+      const sounds = document.querySelectorAll('a-sound');
+
+      sounds.forEach((el) => {
+        if (el.components.sound) {
+          el.components.sound.playSound();
+        }
+      });
+
+      startOverlay.classList.add('hidden');
+    });
+  </script>
+</body>
+</html>
