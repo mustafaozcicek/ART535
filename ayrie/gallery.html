@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sam Cooke Vr Exhibition</title>
+  <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+
+  <script src="https://unpkg.com/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+</head>
+
+<body>
+
+  <script>
+    AFRAME.registerComponent('play-snippet', {
+      schema: {
+        audioId: { type: 'selector' },
+        duration: { type: 'number', default: 10000 } // Duration in milliseconds
+      },
+      init: function () {
+        let el = this.el;
+        let sound = this.data.audioId;
+
+        el.addEventListener('click', () => {
+          // Stop all other audio first (optional)
+          document.querySelectorAll('audio').forEach(a => {
+            a.pause();
+            a.currentTime = 0;
+          });
+
+          // Play this specific track
+          sound.play();
+
+          // Stop it after the snippet duration
+          setTimeout(() => {
+            sound.pause();
+            sound.currentTime = 0;
+          }, this.data.duration);
+        });
+      }
+    });
+  </script>
+
+
+  <a-scene>
+    <a-assets>
+
+      <img id="plank_diff" src="../assets/textures/plank/plank_flooring_04_diff_1k.png" alt="">
+      <img id="white_diff" src="../assets/textures/brick/white_plaster_02_diff_1k.png" alt="">
+
+
+      <img id="Wall1n" src="../assets/images/Wall1_SamC.png">
+      <img id="Wall2" src="../assets/images/Wall2_SamC.png">
+      <img id="Wall3" src="../assets/images/Wall3_SamC.png">
+      <img id="Wall4" src="../assets/images/Wall4_SamC.png">
+      <img id="Wall5" src="../assets/images/Wall5_Samc.png">
+      <img id="Wall6" src="../assets/images/Wall6me.png">
+
+      <a-mixin id="wall" geometry="primitive: box; width: 5.7; height:3;" shadow></a-mixin>
+      <a-mixin id="primary" material="color:#fffaed"></a-mixin>
+
+      <a-asset-item id="Samcookegray" src="3dmodels/Samcookegray.gltf"></a-asset-item>
+
+
+      <a-asset-item id="SamCookedate" src="3dmodels/SamCookedate.gltf"></a-asset-item>
+
+      <a-asset-item id="Vinyl" src="3dmodels/vinyl.glb"></a-asset-item>
+
+       <a-asset-item id="Piano" src="3dmodels/Piano.glb"></a-asset-item>
+
+      <audio id="YouSendMe" src="../assets/audio/YouSendMe.mp4" preload="auto"></audio>
+      <audio id="OnlySixteen" src="../assets/audio/OnlySixteen.mp4" preload="auto"></audio>
+      <audio id="WonderfulWorld" src="../assets/audio/WonderfulWorld.mp4" preload="auto"></audio>
+      <audio id="ChainGang" src="../assets/audio/ChainGang.mp4" preload="auto"></audio>
+      <audio id="Cupid" src="../assets/audio/Cupid.mp4" preload="auto"></audio>
+
+
+
+
+
+      <video id="stirrers" autoplay loop="true" src="../assets/videos/TheSoulStirrers.mp4 "  muted="true" playsinline
+      ></video>
+
+    </a-assets>
+
+
+  <a-video src="#stirrers" position="-5.65086 1.2871 -6.5065"geometry="primitive: plane; height: 1.28; width: 1.73" rotation="0 45.11 0"></a-video>
+
+<a-box position="-5.71088 1.2871 -6.55336" 
+rotation="0 45.11 0" width="1.8" height="1.35" 
+depth="0.1" color="#222" shadow="">
+</a-box>
+
+    <a-gltf-model src="#Samcookegray" position="-6.612 1.899 2.974" scale="0.057 0.048 -0.001" rotation="0.090 90 0"
+      light="intensity: 1; type: ambient; color: #fefcdd; groundColor: #ffffff" width="8" height="1.4113"
+      shadow></a-gltf-model>
+
+    <a-gltf-model src="#SamCookedate" position="-6.586 1.658 2.939" scale="0.060 0.060 0.050" rotation="0.090 50 0"
+      shadow></a-gltf-model>
+
+      <a-gltf-model src="#Piano" position="1.99622 0.19726 1.23467" scale="0.71 0.68 0.96" 
+      rotation="0.09 115.90000000000002 0" shadow="" 
+      gltf-model="3dmodels/Piano.glb" id="Piano"></a-gltf-model>
+
+    <a-gltf-model src="#Vinyl" id="Vinyl1" class="clickable"
+  play-snippet="audioId: #YouSendMe; duration: 17000"
+  position="-2.26781 1.37841 -9.41063" scale="0.002 0.002 0.002"
+  rotation="-26.96 94.21 -88.89">
+    </a-gltf-model>
+
+    <a-gltf-model src="#Vinyl" id="vinyl2" class="clickable"
+  play-snippet="audioId: #OnlySixteen; duration: 22000"
+  position="-1.25372 0.89292 -9.41063" scale="0.002 0.002 0.002"
+  rotation="-26.96 94.21 -88.89">
+</a-gltf-model>
+
+    <a-gltf-model src="#Vinyl" id="vinyl3" class="clickable"
+  play-snippet="audioId: #WonderfulWorld; duration:28000"
+  position="-0.25332 1.37586 -9.41063" scale="0.002 0.002 0.002"
+  rotation="-26.96 94.21 -88.89">
+</a-gltf-model>
+
+    <a-gltf-model src="#Vinyl" id="vinyl4" class="clickable"
+  play-snippet="audioId: #ChainGang; duration: 23000"
+  position="1.05893 0.90323 -9.41063" scale="0.002 0.002 0.002"
+  rotation="-26.96 94.21 -88.89">
+</a-gltf-model>
+
+   <a-gltf-model src="#Vinyl" id="vinyl5" class="clickable"
+  play-snippet="audioId: #Cupid; duration: 30000"
+  position="1.8153 1.37183 -9.41063" scale="0.002 0.002 0.002"
+  rotation="-26.96 94.21 -88.89">
+</a-gltf-model>
+
+
+<a-circle position="-0.09178 0.06082 -6.40479" rotation="-90 0 0" radius="1.2" color="#DAA520" 
+material="opacity: 0.8; transparent: true" shadow="">
+
+    <a-text value="Click To Listen" position="-0.818 0 0.1"
+     color="#000" width="6" font="mozillavr">
+    </a-text>
+</a-circle>
+
+
+
+
+    <a-plane src="#plank_diff" normal-map="#plank_nor" id="floor" class="floor" roughness-map="#plank_rough"
+      ambient-occlusion-map="#plank_ao" rotation="-90 0 0" width="20" height="20" position="-0.05 0 -3.52991"
+      repeat="10 10" material="ambientOcclusionMap: ; normalMap: ; roughness: 1; roughnessMap: " scale="0.79 0.96 1.04"
+      shadow>
+
+    </a-plane>
+
+    <a-plane src="#white_diff" normal-map="#wood_diff" roughness-map="#wood_rough" ambient-occlusion-map="#wood_ao"
+      rotation="90.7 -0.04 -0.02" width="20" height="20" position="0.06076 3.15558 -3.88445" repeat="10 10"
+      material="ambientOcclusionMap: ; normalMap: ; roughness: 1; roughnessMap: " scale="0.79 1 1.06">
+
+    </a-plane>
+
+
+    <a-sky color="#544d43"></a-sky>
+
+
+
+
+
+    <a-entity id="main-hall" rotation="0 0 0" position="0 0 -10">
+      <a-entity mixin="wall primary " position="-7.45765 1.5 7.251" rotation="0.33 90 0"></a-entity>
+      <a-entity mixin="wall primary" position="7.458 1.5 7.251" rotation="0.33 90 0"></a-entity>
+
+      <a-entity mixin="wall primary" position="-7.18077 1.5 7.251" rotation="0.33 90 0"></a-entity>
+      <a-entity mixin="wall primary" position="7.30249 1.5 7.251" rotation="0.33 90 0"></a-entity>
+      <a-entity mixin="wall primary" position="0 1.5 0"></a-entity>
+      <a-entity mixin="wall primary" position="-7.28589 1.5 13.07437" rotation="0.33 90 0"
+        scale="1.05 1 1.25"></a-entity>
+      <a-entity mixin="wall primary" position="7.378 1.5 13.07715" rotation="0.33 90 0" scale="1.04 1 1.25"></a-entity>
+
+      <a-plane width="5.7" height="3" rotation="0 -90 0" material="src: #Wall5"
+        position="6.75924 1.4975 7.28647"></a-plane>
+
+      <a-plane width="5.7" height="3" rotation="0 44.92 0" material="src: #Wall2"
+        position="-4.81922 1.49175 2.55233"></a-plane>
+
+      <a-plane width="5.7" height="3" rotation="0 90 0" material="src: #Wall1n"
+        position="-6.66231 1.47775 7.23929"></a-plane>
+
+      <a-plane width="5.7" height="3" material="src: #Wall3" position="0.04685 1.482 0.55642"></a-plane>
+
+      <a-plane width="5.7" height="3" material="src: #Wall4" position="4.83355 1.47128 2.54196"
+        rotation="0 -45.3 0"></a-plane>
+
+      <a-plane width="5.7" height="3" rotation="0 -90.05 0" material="src: #Wall6" position="6.72512 1.508 13.03907"
+        scale="1.05 0.99 1"></a-plane>
+
+
+      <a-entity position="-2.59663 0.11389 7.04996" rotation="0 90 0" id="bench1">
+        <a-box position="0 0.45 0" width="2" height="0.1" depth="0.6" color="#2f419a"></a-box>
+        <a-box position="-0.8 0.22 0" width="0.05" height="0.45" depth="0.5" color="#222"></a-box>
+        <a-box position="0.8 0.22 0" width="0.05" height="0.45" depth="0.5" color="#222"></a-box>
+      </a-entity>
+
+
+      <a-entity position="2.18943 0.11389 7.05797" rotation="0 90 0" id="bench2">
+        <a-box position="0 0.45 0" width="2" height="0.1" depth="0.6" color="#2f419a"></a-box>
+        <a-box position="-0.8 0.22 0" width="0.05" height="0.45" depth="0.5" color="#222"></a-box>
+        <a-box position="0.8 0.22 0" width="0.05" height="0.45" depth="0.5" color="#222"></a-box>
+      </a-entity>
+
+      <a-entity light="type: point" position="-3.55913 2.9689 5.76161">
+        <a-cylinder color="black" height="0.2" radius="0.15" geometry="height: 0.04" position="-0.01798 0.14277 0">
+        </a-cylinder>
+      </a-entity>
+
+      <a-entity light="type: point" position="2.31228 2.9689 4.66203">
+        <a-cylinder color="black" height="0.2" radius="0.15" geometry="height: 0.04" position="0.00384 0.14277 0.10887">
+        </a-cylinder>
+      </a-entity>
+
+      <a-entity light="type: point" position="4.58222 2.9689 8.49424">
+        <a-cylinder color="black" height="0.2" radius="0.15" geometry="height: 0.04"
+          position="-0.04759 0.14277 0.03661">
+        </a-cylinder>
+      </a-entity>
+
+      <a-entity light="type: point" position="-5.43151 2.9689 12.79632">
+        <a-cylinder color="black" height="0.2" radius="0.15" geometry="height: 0.04" position="0 0.09473 0">
+        </a-cylinder>
+      </a-entity>
+
+
+<a-box position="2.52078 0.1 11.75147" width="6" height="0.2" depth="3" material="repeat: 2 1; color: #000000" shadow="" scale="0.53 1 1.33" id="Stage">
+      </a-box>
+
+
+
+      <a-entity id="mic-stand" position="2.20318 0.2 12.483" scale="0.5 0.5 0.5">
+
+        <a-cylinder color="#222" height="0.05" radius="0.3"></a-cylinder>
+
+        <a-cylinder color="#c7a82e" height="3" radius="0.03" position="0 1.5 0"></a-cylinder>
+
+        <a-sphere position="0 3.1 0" radius="0.15" scale="0.77 1.16 0.88"
+          material="color: #000000; metalness: 0.8; roughness: 0.2" geometry="radius: 0.26; thetaLength: 179.96"
+          rotation="-0.51508905782261 0.8090164067247224 -18.1925559109939">
+          <a-ring color="#333" radius-inner="0.15" radius-outer="0.16" rotation="90 0 0"></a-ring>
+        </a-sphere>
+
+      </a-entity>
+
+
+      <a-entity id="stage-stool" position="3.04056 0.2 12.633" scale="0.8 0.8 0.8">
+
+        <a-cylinder position="0 1.2 0" radius="0.25" height="0.1" material="color: #000000; roughness: 0.8"
+          scale="1.21 1 1.5">
+        </a-cylinder>
+
+        <a-cylinder position="0 0.6 0" radius="0.03" height="1.2" material="color: #999; metalness: 0.7">
+        </a-cylinder>
+
+        <a-torus position="0 0.3 0" radius="0.15" radius-tubular="0.01" rotation="90 0 0"
+          material="color: #000000; metalness: 0.7">
+        </a-torus>
+
+        <a-cylinder position="0 0.02 0" radius="0.2" height="0.04" material="color: #000000; metalness: 0.5">
+        </a-cylinder>
+
+      </a-entity>
+
+      <a-entity light="type: spot; intensity: 1.5; angle: 30; penumbra: 0.5; color: #fffbe0; castShadow: true"
+        position="0 5 -2" rotation="-70 0 0">
+      </a-entity>
+
+
+      <a-entity id="stanchion-left" position="0.61171 0.01249 14.0263">
+        <a-cylinder radius="0.05" height="1.1" color="#FFD700" metalness="0.8"
+          position="0 0.56405 -1.49393"></a-cylinder> <a-cylinder radius="0.15" height="0.02" color="#FFD700"
+          position="0 0.01264 -1.51318"></a-cylinder> </a-entity>
+
+      <a-entity id="stanchion-right" position="3.2 0.56164 14.27873">
+        <a-cylinder radius="0.05" height="1.1" color="#FFD700" metalness="0.8"
+          position="0.11316 0.06893 -0.04128"></a-cylinder>
+        <a-cylinder radius="0.15" height="0.02" color="#FFD700" position="0.19836 -0.54 -0.12893"></a-cylinder>
+
+      </a-entity>
+
+      <a-torus id="red-rope" arc="100" radius="3.2" radius-tubular="0.03" position="2.02888 2.33638 13.09991"
+        rotation="14.22807 149.02959 -143.26294005230616" color="black" scale="0.65 0.62 0.95">
+      </a-torus>
+
+
+      <a-entity position="-2.63682 0 12.80735" rotation="0 180 0" id="chair" scale="0.83 0.75 3.1">
+        <a-box position="0 0.4 0" width="1.2" height="0.8" depth="1.2" color="#222" scale="1 0.72 0.89"></a-box>
+
+        <a-box position="0 0.6 0" width="1.0" height="0.45" depth="1.0" color="#444" material="roughness: 1"
+          scale="1.01 0.99 1.04"></a-box>
+
+        <a-box position="0 0.55 0" width="0.95" height="0.4" depth="0.95" color="#f5f5f5" material="roughness: 0.9"
+          scale="1 0.68 1"></a-box>
+
+        <a-box position="-0.5 0.9 0" width="0.2" height="1" depth="1.2" color="#222"></a-box>
+      </a-entity>
+
+      <a-box id="pillow" position="-2.52794 0.87747 11.73733" width="0.7" height="0.7" depth="0.3"
+        rotation="-6.38 -69.8 -1.13" color="#daa520" material="roughness: 0.9" shadow="" scale="0.99 0.66 0.19">
+      </a-box>
+
+      <a-box id="pillow-2" position="-2.47117 0.87747 13.99488" width="0.7" height="0.7" depth="0.3"
+        rotation="-6.38 -109.2 -1.13" color="#daa520" material="roughness: 0.9" shadow="" scale="0.99 0.66 0.19">
+      </a-box>
+
+
+
+<a-entity id="player" position="0 0 10">
+  <a-entity id="camera" camera wasd-controls look-controls position="0 1.6 0">
+    <a-entity cursor="fuse: false; rayOrigin: mouse;"
+              raycaster="objects: .clickable"
+              position="0 0 -1"
+              material="color: #FFD700; shader: flat">
+    </a-entity>
+  </a-entity>
+  
+  <a-entity id="left-hand" raycaster="objects: .floor, .clickable" oculus-touch-controls="hand: left" blink-controls></a-entity>
+  <a-entity id="right-hand" raycaster="objects: .floor, .clickable" oculus-touch-controls="hand: right" blink-controls></a-entity>
+</a-entity>
+
+
+  </a-scene>
+</body>
+
+</html>
