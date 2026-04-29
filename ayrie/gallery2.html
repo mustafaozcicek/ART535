@@ -113,30 +113,56 @@
         },
       });
 
-      AFRAME.registerComponent("controller-click", {
-    init: function () {
-      const el = this.el;
+      AFRAME.registerComponent("controller-interaction", {
+        init: function () {
+          const el = this.el;
+          let currentHover = null;
 
-      const clickHoveredObject = () => {
-        const raycaster = el.components.raycaster;
-        if (!raycaster) return;
+          const clickHoveredObject = () => {
+            const raycaster = el.components.raycaster;
+            if (!raycaster) return;
 
-        // This is more reliable than raycaster.intersections in A-Frame
-        const hitEl = raycaster.intersectedEls && raycaster.intersectedEls[0];
+            const hitEl =
+              raycaster.intersectedEls && raycaster.intersectedEls[0];
 
-        if (hitEl && hitEl.classList.contains("clickable")) {
-          hitEl.emit("click");
-        }
-      };
+            if (hitEl && hitEl.classList.contains("clickable")) {
+              hitEl.emit("click");
+            }
+          };
 
-      // Listen for several possible Quest/controller button events
-      el.addEventListener("triggerdown", clickHoveredObject);
-      el.addEventListener("gripdown", clickHoveredObject);
-      el.addEventListener("abuttondown", clickHoveredObject);
-      el.addEventListener("bbuttondown", clickHoveredObject);
-      el.addEventListener("thumbstickdown", clickHoveredObject);
-    }
-  });
+          el.addEventListener("triggerdown", clickHoveredObject);
+          el.addEventListener("gripdown", clickHoveredObject);
+          el.addEventListener("abuttondown", clickHoveredObject);
+          el.addEventListener("bbuttondown", clickHoveredObject);
+          el.addEventListener("thumbstickdown", clickHoveredObject);
+
+          this.checkHover = () => {
+            const raycaster = el.components.raycaster;
+            if (!raycaster) return;
+
+            const hitEl =
+              raycaster.intersectedEls && raycaster.intersectedEls[0];
+            const newHover =
+              hitEl && hitEl.classList.contains("clickable") ? hitEl : null;
+
+            if (newHover !== currentHover) {
+              if (currentHover) {
+                currentHover.emit("mouseleave");
+              }
+
+              if (newHover) {
+                newHover.emit("mouseenter");
+              }
+
+              currentHover = newHover;
+            }
+          };
+        },
+
+        tick: function () {
+          this.checkHover();
+        },
+      });
     </script>
   </head>
 
@@ -749,7 +775,7 @@
           hand-controls="hand: right"
           raycaster="objects: .clickable; showLine: true; far: 15"
           line="color: #FFD700; opacity: 0.8"
-          controller-click
+          controller-interaction
         >
         </a-entity>
       </a-entity>
