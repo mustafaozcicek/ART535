@@ -11,96 +11,126 @@
   <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 
   <script>
-    AFRAME.registerComponent('play-snippet', {
-      schema: {
-        duration: { type: 'number', default: 10000 }
-      },
+  AFRAME.registerComponent('play-snippet', {
+    schema: {
+      duration: { type: 'number', default: 10000 }
+    },
 
-      init: function () {
-        const el = this.el;
-        let stopTimer;
+    init: function () {
+      const el = this.el;
+      let stopTimer;
 
-        el.addEventListener('click', () => {
-          document.querySelectorAll('[sound]').forEach(soundEl => {
-            if (soundEl.components.sound) {
-              soundEl.components.sound.stopSound();
-            }
-          });
+      const playRecord = () => {
+        const scene = document.querySelector('a-scene');
 
-          if (stopTimer) {
-            clearTimeout(stopTimer);
+        // unlock/resume audio in VR
+        if (scene && scene.audioListener && scene.audioListener.context) {
+          scene.audioListener.context.resume();
+        }
+
+        // stop all records
+        document.querySelectorAll('[sound]').forEach(soundEl => {
+          if (soundEl.components.sound) {
+            soundEl.components.sound.stopSound();
           }
+        });
 
+        if (stopTimer) clearTimeout(stopTimer);
+
+        if (el.components.sound) {
+          el.components.sound.playSound();
+        }
+
+        stopTimer = setTimeout(() => {
           if (el.components.sound) {
-            el.components.sound.playSound();
+            el.components.sound.stopSound();
           }
+        }, this.data.duration);
+      };
 
-          stopTimer = setTimeout(() => {
-            if (el.components.sound) {
-              el.components.sound.stopSound();
-            }
-          }, this.data.duration);
-        });
-      }
-    });
+      el.addEventListener('click', playRecord);
 
-    AFRAME.registerComponent('hover-glow', {
-      init: function () {
-        const el = this.el;
-        let originalScale;
+      // extra VR controller support
+      el.addEventListener('triggerdown', playRecord);
+    }
+  });
 
-        el.addEventListener('model-loaded', () => {
-          originalScale = el.getAttribute('scale');
 
-          el.object3D.traverse(node => {
-            if (node.isMesh && node.material) {
-              node.material = node.material.clone();
-              node.userData.originalEmissive = node.material.emissive
-                ? node.material.emissive.clone()
-                : new THREE.Color('#000000');
-              node.userData.originalEmissiveIntensity = node.material.emissiveIntensity || 0;
-            }
-          });
-        });
+  AFRAME.registerComponent('hover-glow', {
+    init: function () {
+      const el = this.el;
 
-        el.addEventListener('mouseenter', () => {
-          if (!originalScale) originalScale = el.getAttribute('scale');
+      // Store original scale ONCE.
+      const baseScale = Object.assign({}, el.getAttribute('scale'));
 
-          el.object3D.traverse(node => {
-            if (node.isMesh && node.material && node.material.emissive) {
-              node.material.emissive.set('#FFD700');
-              node.material.emissiveIntensity = 1.5;
-            }
-          });
+      el.addEventListener('model-loaded', () => {
+        el.object3D.traverse(node => {
+          if (node.isMesh && node.material) {
+            node.material = node.material.clone();
 
-          el.setAttribute('animation__hover_scale', {
-            property: 'scale',
-            dur: 150,
-            easing: 'easeOutQuad',
-            to: `${originalScale.x * 1.15} ${originalScale.y * 1.15} ${originalScale.z * 1.15}`
-          });
-        });
+            node.userData.originalEmissive = node.material.emissive
+              ? node.material.emissive.clone()
+              : new THREE.Color('#000000');
 
-        el.addEventListener('mouseleave', () => {
-          el.object3D.traverse(node => {
-            if (node.isMesh && node.material && node.material.emissive) {
-              node.material.emissive.copy(node.userData.originalEmissive || new THREE.Color('#000000'));
-              node.material.emissiveIntensity = node.userData.originalEmissiveIntensity || 0;
-            }
-          });
-
-          if (originalScale) {
-            el.setAttribute('animation__hover_scale', {
-              property: 'scale',
-              dur: 150,
-              easing: 'easeOutQuad',
-              to: `${originalScale.x} ${originalScale.y} ${originalScale.z}`
-            });
+            node.userData.originalEmissiveIntensity = node.material.emissiveIntensity || 0;
           }
         });
-      }
-    });
-  </script>
+      });
+
+      el.addEventListener('mouseenter', () => {
+        el.object3D.traverse(node => {
+          if (node.isMesh && node.material && node.material.emissive) {
+            node.material.emissive.set('#FFD700');
+            node.material.emissiveIntensity = 1.5;
+          }
+        });
+
+        el.setAttribute('animation__hover_scale', {
+          property: 'scale',
+          dur: 150,
+          easing: 'easeOutQuad',
+          to: `${baseScale.x * 1.15} ${baseScale.y * 1.15} ${baseScale.z * 1.15}`
+        });
+      });
+
+      el.addEventListener('mouseleave', () => {
+        el.object3D.traverse(node => {
+          if (node.isMesh && node.material && node.material.emissive) {
+            node.material.emissive.copy(node.userData.originalEmissive || new THREE.Color('#000000'));
+            node.material.emissiveIntensity = node.userData.originalEmissiveIntensity || 0;
+          }
+        });
+
+        el.setAttribute('animation__hover_scale', {
+          property: 'scale',
+          dur: 150,
+          easing: 'easeOutQuad',
+          to: `${baseScale.x} ${baseScale.y} ${baseScale.z}`
+        });
+      });
+    }
+  });
+
+
+  AFRAME.registerComponent('controller-click', {
+    init: function () {
+      const el = this.el;
+
+      el.addEventListener('triggerdown', () => {
+        const raycaster = el.components.raycaster;
+        if (!raycaster) return;
+
+        const intersections = raycaster.intersections;
+        if (!intersections || intersections.length === 0) return;
+
+        const hit = intersections[0].object.el;
+        if (hit && hit.classList.contains('clickable')) {
+          hit.emit('click');
+        }
+      });
+    }
+  });
+</script>
 </head>
 
 <body>
