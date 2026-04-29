@@ -733,8 +733,8 @@
 
         <a-entity
           id="left-hand"
-          oculus-touch-controls="hand: left"
-          blink-controls="cameraRig: #player; teleportOrigin: #camera; collisionEntities: .floor"
+          hand-controls="hand: left"
+          blink-controls="cameraRig: #player; teleportOrigin: #camera; collisionEntities: #floor"
         >
         </a-entity>
 
@@ -743,7 +743,8 @@
           oculus-touch-controls="hand: right"
           raycaster="objects: .clickable; showLine: true; far: 15"
           line="color: #FFD700; opacity: 0.8"
-          controller-click>
+          controller-click
+        >
         </a-entity>
       </a-entity>
     </a-scene>
