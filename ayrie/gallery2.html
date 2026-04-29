@@ -114,23 +114,29 @@
       });
 
       AFRAME.registerComponent("controller-click", {
-        init: function () {
-          const el = this.el;
+    init: function () {
+      const el = this.el;
 
-          el.addEventListener("triggerdown", () => {
-            const raycaster = el.components.raycaster;
-            if (!raycaster) return;
+      const clickHoveredObject = () => {
+        const raycaster = el.components.raycaster;
+        if (!raycaster) return;
 
-            const intersections = raycaster.intersections;
-            if (!intersections || intersections.length === 0) return;
+        // This is more reliable than raycaster.intersections in A-Frame
+        const hitEl = raycaster.intersectedEls && raycaster.intersectedEls[0];
 
-            const hit = intersections[0].object.el;
-            if (hit && hit.classList.contains("clickable")) {
-              hit.emit("click");
-            }
-          });
-        },
-      });
+        if (hitEl && hitEl.classList.contains("clickable")) {
+          hitEl.emit("click");
+        }
+      };
+
+      // Listen for several possible Quest/controller button events
+      el.addEventListener("triggerdown", clickHoveredObject);
+      el.addEventListener("gripdown", clickHoveredObject);
+      el.addEventListener("abuttondown", clickHoveredObject);
+      el.addEventListener("bbuttondown", clickHoveredObject);
+      el.addEventListener("thumbstickdown", clickHoveredObject);
+    }
+  });
     </script>
   </head>
 
@@ -740,7 +746,7 @@
 
         <a-entity
           id="right-hand"
-          oculus-touch-controls="hand: right"
+          hand-controls="hand: right"
           raycaster="objects: .clickable; showLine: true; far: 15"
           line="color: #FFD700; opacity: 0.8"
           controller-click
