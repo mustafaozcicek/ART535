@@ -17,7 +17,7 @@
     <a-scene physics="debug: true; driver: local; iterations: 10; gravity: -9; stats: console">
         
         
-         <a-entity id="player" position="0 1.6 0">
+         <a-entity id="player" movement-controls="controls: keyboard, touch; speed: 0.3" position="0 1.6 0">
             <!-- camera -->
             <a-entity id="camera" camera wasd-controls look-controls></a-entity>
             <!-- hand controls -->
